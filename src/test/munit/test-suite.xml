@@ -17,7 +17,13 @@ http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/
 
     <munit:before-test name="test-suiteBefore_Test" description="Before tests actions" doc:id="13a25644-d86b-4e2c-acf3-0be97ef4d9bc">
         <logger level="INFO" doc:name="Logger" doc:id="452f2d97-393f-4673-8f0b-1815ed03a285" message="test before"/>
+		<logger level="INFO" doc:name="Logger" doc:id="c58b3abc-165a-4807-92b3-08ffb186c8e6" message="call getSAPCustomerSubFlow"/>
 		<flow-ref doc:name="Call getSAPCustomerSubFlow" doc:id="9abc6949-612b-4e65-8d07-f22a2a468d96" name="getSAPCustomerSubFlow" />
+		<logger level="INFO" doc:name="Copy_of_Logger" doc:id="d2a6ece8-4ea2-41b7-9432-b18df8ec257b" message="call getSAPCustomerSubFlow finished, sleep1 for 60s" />
+		<scripting:execute engine="Groovy" doc:name="Copy_of_Sleep for 60s until the processing is completed" doc:id="b41a0e04-733c-4b27-817b-1acd0f9704a6">
+			<scripting:code>sleep(60000)</scripting:code>
+		</scripting:execute>
+		<logger level="INFO" doc:name="Copy_of_Logger" doc:id="6f3488df-7be1-4399-a609-bd8895fc1b02" message="sleep1 finished" />
 		<ee:transform doc:name="Prepare test data" doc:id="a2ba96a2-5716-4383-a536-2e1da48a0465" >
 			<ee:message >
 			</ee:message>
@@ -61,11 +67,11 @@ output application/java
 			<logger level="INFO" doc:name="Logger" doc:id="d875b39e-a607-40f7-8b10-9367a71439e6" message="business logic call"/>
 			<flow-ref doc:name="Call businessLogicFlow" doc:id="7f68af35-fa7f-4151-bad8-e91ec6a54cf7" name="businessLogicFlow" />
             <logger level="INFO" doc:name="Logger" doc:id="ef5b5704-71fe-459a-8814-9209ee089551" message="business logic call finished"/>
-			<logger level="INFO" doc:name="Logger" doc:id="9b30a6a2-d021-4165-b277-d2b51eb5cabd" message="sleep for 60 seconds"/>
+			<logger level="INFO" doc:name="Logger" doc:id="9b30a6a2-d021-4165-b277-d2b51eb5cabd" message="sleep2 for 60 seconds"/>
 			<scripting:execute doc:name="Sleep for 60s until the processing is completed" doc:id="261627e9-9ff1-40e3-a218-b550195f4daa" engine="Groovy">
                 <scripting:code>sleep(60000)</scripting:code>
             </scripting:execute>
-			<logger level="INFO" doc:name="Logger" doc:id="78576ff2-787a-4229-ba13-811bd668819c" message="sleep finished"/>
+			<logger level="INFO" doc:name="Logger" doc:id="78576ff2-787a-4229-ba13-811bd668819c" message="sleep2 finished"/>
 			<salesforce:query-single doc:name="Query record should be created in Salesforce" doc:id="d6c95c7f-e83b-493a-9cd3-4130a862846a"
                 config-ref="Salesforce" target="resultCreated">
                 <salesforce:salesforce-query>SELECT Id, Name FROM Account WHERE Name = ':name'</salesforce:salesforce-query>
