@@ -57,9 +57,11 @@ output application/java
     <munit:test name="test-suite-businesslogicFlowTest" description="Test" doc:id="4be0e5e7-b822-441d-bc8a-103f3f9626ae">
         <munit:execution>
             <flow-ref doc:name="Call businessLogicFlow" doc:id="7f68af35-fa7f-4151-bad8-e91ec6a54cf7" name="businessLogicFlow" />
-            <scripting:execute doc:name="Sleep for 10s until the processing is completed" doc:id="261627e9-9ff1-40e3-a218-b550195f4daa" engine="Groovy">
-                <scripting:code>sleep(10000)</scripting:code>
+            <logger level="INFO" doc:name="Logger" doc:id="9b30a6a2-d021-4165-b277-d2b51eb5cabd" message="sleep for 60 seconds"/>
+			<scripting:execute doc:name="Sleep for 60s until the processing is completed" doc:id="261627e9-9ff1-40e3-a218-b550195f4daa" engine="Groovy">
+                <scripting:code>sleep(60000)</scripting:code>
             </scripting:execute>
+			<logger level="INFO" doc:name="Logger" doc:id="78576ff2-787a-4229-ba13-811bd668819c" message="sleep finished"/>
 			<salesforce:query-single doc:name="Query record should be created in Salesforce" doc:id="d6c95c7f-e83b-493a-9cd3-4130a862846a"
                 config-ref="Salesforce" target="resultCreated">
                 <salesforce:salesforce-query>SELECT Id, Name FROM Account WHERE Name = ':name'</salesforce:salesforce-query>
