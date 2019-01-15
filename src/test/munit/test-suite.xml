@@ -16,7 +16,8 @@ http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/
     <configuration-properties doc:name="Configuration properties" doc:id="87cd5d37-7893-4f89-a151-5d16e76dc060" file="mule.test.properties" />
 
     <munit:before-test name="test-suiteBefore_Test" description="Before tests actions" doc:id="13a25644-d86b-4e2c-acf3-0be97ef4d9bc">
-        <flow-ref doc:name="Call getSAPCustomerSubFlow" doc:id="9abc6949-612b-4e65-8d07-f22a2a468d96" name="getSAPCustomerSubFlow" />
+        <logger level="INFO" doc:name="Logger" doc:id="452f2d97-393f-4673-8f0b-1815ed03a285" message="test before"/>
+		<flow-ref doc:name="Call getSAPCustomerSubFlow" doc:id="9abc6949-612b-4e65-8d07-f22a2a468d96" name="getSAPCustomerSubFlow" />
 		<ee:transform doc:name="Prepare test data" doc:id="a2ba96a2-5716-4383-a536-2e1da48a0465" >
 			<ee:message >
 			</ee:message>
@@ -56,8 +57,11 @@ output application/java
     </munit:before-test>
     <munit:test name="test-suite-businesslogicFlowTest" description="Test" doc:id="4be0e5e7-b822-441d-bc8a-103f3f9626ae">
         <munit:execution>
-            <flow-ref doc:name="Call businessLogicFlow" doc:id="7f68af35-fa7f-4151-bad8-e91ec6a54cf7" name="businessLogicFlow" />
-            <logger level="INFO" doc:name="Logger" doc:id="9b30a6a2-d021-4165-b277-d2b51eb5cabd" message="sleep for 60 seconds"/>
+            <logger level="INFO" doc:name="Logger" doc:id="6a5227b3-7104-4fbc-87d2-8f7e471ab60f" message="test execution"/>
+			<logger level="INFO" doc:name="Logger" doc:id="d875b39e-a607-40f7-8b10-9367a71439e6" message="business logic call"/>
+			<flow-ref doc:name="Call businessLogicFlow" doc:id="7f68af35-fa7f-4151-bad8-e91ec6a54cf7" name="businessLogicFlow" />
+            <logger level="INFO" doc:name="Logger" doc:id="ef5b5704-71fe-459a-8814-9209ee089551" message="business logic call finished"/>
+			<logger level="INFO" doc:name="Logger" doc:id="9b30a6a2-d021-4165-b277-d2b51eb5cabd" message="sleep for 60 seconds"/>
 			<scripting:execute doc:name="Sleep for 60s until the processing is completed" doc:id="261627e9-9ff1-40e3-a218-b550195f4daa" engine="Groovy">
                 <scripting:code>sleep(60000)</scripting:code>
             </scripting:execute>
@@ -92,14 +96,16 @@ vars.sfdcIds + vars.resultCreated.Id]]></ee:set-variable>
             </salesforce:query-single>
         </munit:execution>
         <munit:validation>
-            <munit-tools:assert-that doc:name="Assert that record is created in Salesforce" expression="#[vars.resultCreated.Id]"
+            <logger level="INFO" doc:name="Logger" doc:id="0a70b27d-daae-4bc4-8fc1-0a7e12e13d9b" message="test validation"/>
+			<munit-tools:assert-that doc:name="Assert that record is created in Salesforce" expression="#[vars.resultCreated.Id]"
                 is="#[MunitTools::notNullValue()]" message="Record isn't created in Salesforce" />
             <munit-tools:assert-that doc:name="Assert that record is updated in Salesforce" expression="#[vars.resultUpdated.BillingCountry]"
                 is="#[MunitTools::equalTo(vars.testDataUpdate.BillingCountry)]" message="Record isn't updated in Salesforce" />
         </munit:validation>
     </munit:test>
     <munit:after-test name="test-suiteAfter_Test" description="After tests actions" doc:id="6e33c171-6b28-48fd-ac13-44b43e1cf18a">
-        <salesforce:delete doc:name="Delete test Accounts from Salesforce" doc:id="0fa21617-1080-4fa2-87e2-1255c0f0b314"
+        <logger level="INFO" doc:name="Logger" doc:id="8ab4b9e2-1107-4f00-af9e-e9817d5618d9" message="deleting sfdc account, vars.sfdcIds=#[output application/json --- vars.sfdcIds]"/>
+		<salesforce:delete doc:name="Delete test Accounts from Salesforce" doc:id="0fa21617-1080-4fa2-87e2-1255c0f0b314"
             config-ref="Salesforce">
             <salesforce:delete-ids><![CDATA[#[vars.sfdcIds]]]></salesforce:delete-ids>
         </salesforce:delete>
