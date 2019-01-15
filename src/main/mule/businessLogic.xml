@@ -91,7 +91,7 @@ output application/xml
 {
   "BAPI_CUSTOMER_GETLIST": {
     "import": {
-      "MAXROWS": "${sap.maxrows}"
+      "MAXROWS": "10"
     },
     "tables": {
       "IDRANGE": {
