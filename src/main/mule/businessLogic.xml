@@ -107,7 +107,9 @@ output application/xml
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="7adf6d3d-67e1-4db6-b69a-d5d8a8b17ca2" message="before call BAPI_CUSTOMER_GETLIST"/>
 		<sap:execute-synchronous-remote-function-call key="BAPI_CUSTOMER_GETLIST" doc:name="Query customers from SAP" doc:id="01a003d3-14cc-4fe9-85e5-0f11e9787b75" config-ref="SAP_Outbound" />
+		<logger level="INFO" doc:name="Copy_of_Logger" doc:id="1e6fed86-9b80-4840-83cf-536f6d2d5cbb" message="after call BAPI_CUSTOMER_GETLIST" />
 		<ee:transform doc:name="Convert SAP response to Salesforce Account" doc:id="54b7b34d-7293-4b38-8651-086f42d85a3c">
 			<ee:message>
 				<ee:set-payload><![CDATA[%dw 2.0
